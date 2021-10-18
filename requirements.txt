@@ -2,5 +2,5 @@ pandas
 numpy
 matplotlib
 seaborn
-streamlit
-lxml
+streamlit==0.75
+
