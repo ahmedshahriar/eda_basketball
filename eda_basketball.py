@@ -50,7 +50,7 @@ min_age, max_age = selected_age
 df_selected_dataset = df_player_stat_dataset[
     (df_player_stat_dataset.Tm.isin(selected_team) &
      df_player_stat_dataset.Pos.isin(selected_position) &
-     df_player_stat_dataset['Age'].between(min_age, max_age, inclusive=False))]
+     df_player_stat_dataset['Age'].between(min_age, max_age))]
 
 # display dataframe
 st.header('Display Player Stats of Selected Team(s)')
