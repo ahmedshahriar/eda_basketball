@@ -14,13 +14,20 @@ selected_year = st.sidebar.selectbox("Year", list(reversed(range(1950, 2020))))
 """
 parsing basketball players info from https://www.basketball-reference.com
 """
-@st.cache
+@st.cache_data
 def parse_data(year: str):
     url = "https://www.basketball-reference.com/leagues/NBA_" + year + "_per_game.html"
     parsed_df = pd.read_html(url, header=0)[0]
     parsed_df = parsed_df.drop(parsed_df[parsed_df['Age'] == 'Age'].index)
     parsed_df = parsed_df.fillna(0)
     parsed_df = parsed_df.drop(['Rk'], axis=1)
+    # PyArrow bug
+    # https://stackoverflow.com/a/69581451/11105356
+    parsed_df['FG%'] = parsed_df['FG%'].astype(str)
+    parsed_df['3P%'] = parsed_df['3P%'].astype(str)
+    parsed_df['2P%'] = parsed_df['2P%'].astype(str)
+    parsed_df['eFG%'] = parsed_df['eFG%'].astype(str)
+    parsed_df['FT%'] = parsed_df['FT%'].astype(str)
     # convert datatype to work with age filter
     parsed_df['Age'] = parsed_df['Age'].astype(str).astype(int)
     return parsed_df
